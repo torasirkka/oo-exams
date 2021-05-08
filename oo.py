@@ -46,23 +46,40 @@ class Exam:
                 lst.append(1)
             else:
                 lst.append(0)
-        print(sum(lst) / len(lst))
         return sum(lst) / len(lst)
 
 
+class StudentExam:
+    """Class that stores a student and exam instance, administers the exam and stores the resulting score."""
+
+    def __init__(self, student, exam):
+        """Instantiate an exam for a student"""
+        self.student = student
+        self.exam = exam
+
+    def take_test(self):
+        print(f"\nHi, {self.student.first_name}. Welcome to the {self.exam.name} exam!")
+        print("*" * 40)
+        print("")
+        score = self.exam.administer()
+        print(f"Your score is: {score}.")
+
+
 if __name__ == "__main__":
-    Jasmine = Student("Jasmine", "Debugger", "0101 Computer Street")
+
+    # Create exam 'Midterm'
+    midterm = Exam("Midterm")
+
+    # Create question objects
     alberta_capital = Question("What is the capital of Alberta?", "Edmonton")
     python_author = Question("Who is the author of Python?", "Guido Van Rossum")
     set_q = Question("What is the method for adding and element to a set?", ".add()")
-
-    midterm = Exam("midterm")
+    # Add questions to Midterm exam
     midterm.add_question(alberta_capital)
     midterm.add_question(python_author)
     midterm.add_question(set_q)
 
-    midterm.administer()
-    print("")
-    print(f"Hi, {Jasmine.first_name}. Welcome to the {midterm.name} exam!")
+    Jasmine = Student("Jasmine", "Debugger", "0101 Computer Street")
 
-    print("*" * 20)
+    studentexam = StudentExam(Jasmine, midterm)
+    studentexam.take_test()
