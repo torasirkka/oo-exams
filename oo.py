@@ -18,8 +18,9 @@ class Question:
         self.question = question
         self.correct_answer = correct_answer
 
-    def ask_and_evaluate(self):
-        """Function that prints question and evaluates the result."""
+    def ask_and_evaluate(self) -> bool:
+        """Function that prints question, reads and evaluates results. Returns a boolean
+        if the answer is correct."""
 
         answer = input(f"{self.question} ")
         return answer == self.correct_answer
@@ -33,30 +34,39 @@ class Exam:
         self.name = name
         self.questions = []
 
-    def add_question(self, question):
+    def add_question(self, question: Question):
+        """Modifies the exam instance attribute 'questions' of type list, by appending a
+        question to it."""
+
         self.questions.append(question)
 
-    def calc_score(self, lst):
+    def _calc_score(self, lst) -> float:
+        """Calculates the score of the exam.
+
+        The list lst must contain a list with zeros and ones representing incorrect and
+        correct answers."""
+
         return sum(lst) / len(lst)
 
-    def administer(self):
-        """administer all questions in test & evaluate score."""
+    def administer(self) -> float:
+        """Administer all questions in test & evaluate score."""
 
+        # For each answer: append 0 for incorrect answer, or one for a correct one.
         lst = []
         for question in self.questions:
             if question.ask_and_evaluate():
                 lst.append(1)
             else:
                 lst.append(0)
-        return self.calc_score(lst)
+        return self._calc_score(lst)
 
 
 class Quiz(Exam):
     """Define Quiz class.
 
     This class behaves like it's super class 'Exam', with the exception that
-    the administer-method should return 1 if the score is > 0.5 and false
-    otherwise."""
+    the score is calculated in a different way. It is 1 if the the ratio correct
+    to incorrect answers is >= 0.5, and 0 otherwise."""
 
     def __init__(self, name):
         super().__init__(name)
@@ -64,7 +74,9 @@ class Quiz(Exam):
     def add_question(self, question):
         super().add_question(question)
 
-    def calc_score(self, lst):
+    # _calc_score determines what's returned by administer(). Here we use round()
+    # to return 1 when more than half the questions are correct and 0 otherwise.
+    def _calc_score(self, lst):
         return round(sum(lst) / len(lst))
 
     def administer(self):
@@ -73,7 +85,8 @@ class Quiz(Exam):
 
 
 class StudentExam:
-    """Class that stores a student and exam instance, administers the exam and stores the resulting score."""
+    """Class that stores a student and exam instance, administers the exam and
+    stores the resulting score."""
 
     def __init__(self, student, exam):
         """Instantiate an exam for a student"""
@@ -82,10 +95,14 @@ class StudentExam:
         self.score = None
 
     def _print_score(self, score):
+        """Print the score"""
         print(f"Your score is: {score}.")
 
     def take_test(self):
-        print(f"\nHi, {self.student.first_name}. Welcome to the {self.exam.name} exam!")
+        """Administer exam to student. Register result as instance attribute."""
+        print(
+            f"\nHi, {self.student.first_name}. Welcome to the {self.exam.name} examination!"
+        )
         print("*" * 40)
         print("")
         self.score = self.exam.administer()
@@ -97,12 +114,15 @@ class StudentQuiz(StudentExam):
     """Creating a student class."""
 
     def __init__(self, student, exam):
+        """Instantiate studentquiz object."""
         super().__init__(student, exam)
 
     def print_score(self, score):
+        """Print the score"""
         print(f"Your quizz result is: {score}.")
 
     def take_test(self):
+        """Administer the quiz to student. Register result as instance attribute."""
         self.score = super().take_test()
 
 
