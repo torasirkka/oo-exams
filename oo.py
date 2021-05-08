@@ -109,6 +109,10 @@ class StudentQuiz(StudentExam):
 if __name__ == "__main__":
 
     # For examining Exam and Quiz- related classes:
+
+    # Instantiate Student object 'Jasmine'
+    Jasmine = Student("Jasmine", "Debugger", "0101 Computer Street")
+
     # Create question objects
     alberta_capital = Question("What is the capital of Alberta?", "Edmonton")
     python_author = Question("Who is the author of Python?", "Guido Van Rossum")
@@ -123,10 +127,7 @@ if __name__ == "__main__":
     midterm.add_question(python_author)
     midterm.add_question(set_q)
 
-    # Instantiate student 'Jasmine'
-    Jasmine = Student("Jasmine", "Debugger", "0101 Computer Street")
-
-    # Instantiate studentexam object,
+    # Instantiate studentexam object
     studentexam = StudentExam(Jasmine, midterm)
     studentexam.take_test()
 
@@ -139,12 +140,12 @@ if __name__ == "__main__":
     alberta_capital = Question("What is the capital of Alberta?", "Edmonton")
     python_author = Question("Who is the author of Python?", "Guido Van Rossum")
     set_q = Question("What is the method for adding and element to a set?", ".add()")
+
     # Add questions to Midterm exam
     quiz1.add_question(alberta_capital)
     quiz1.add_question(python_author)
     quiz1.add_question(set_q)
 
-    Jasmine = Student("Jasmine", "Debugger", "0101 Computer Street")
-
+    # Instantiate studentquiz object
     studentquiz = StudentQuiz(Jasmine, quiz1)
     studentquiz.take_test()
